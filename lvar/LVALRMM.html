@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Love Alarm.GEN</title>
+    <link rel="stylesheet" href="sty.css">
+</head>
+<body id="body">
+    <h1 id="title" class="title">Love Alarm</h1><h1 id="dot" class="dot">.GEN</h1>
+
+    <div class="formbg">
+    <form id="loveAlarmForm" class="loveAlarmForm">
+        <label for="name">Nombre del Receptor:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="message">Tu Mensaje:</label><br>
+        <textarea id="message" name="message" rows="4" cols="50" required></textarea><br><br>
+       
+       
+        <label for="noteColor">Color:</label><br>
+        <select id="noteColor" name="noteColor">
+         <option value="#fff3a3">Amarillo</option>
+         <option value="#ffd6e7">Rosa</option>
+         <option value="#d6f5d6">Verde</option>
+         <option value="#d6e8ff">Azul</option>
+         <option value="#f3ddff">Lavanda</option>
+        </select><br><br>
+
+        <label for="inkColor">Tinta:</label><br>
+        <select id="inkColor" name="inkColor">
+         <option value="#333333">Negro</option>
+         <option value="#d6336c">Rosa</option>
+         <option value="#6f42c1">Morado</option>
+         <option value="#0d6efd">Azul</option>
+         <option value="#198754">Verde</option>
+         <option value="#ffffff">Blanco</option>
+         <option value="#FF0000">Rojo</option>
+        </select><br><br>
+
+        <input class="genbtn" type="submit" value="Generar">
+        
+    </form>
+    </div>
+
+   <div id="result" class="postIt hidden">
+        <div class="tape"></div>
+        <h2 id="resultTitle">Love Alarm</h2>
+        <p id="resultMessage"></p>
+    </div>
+
+    <button id="saveBtn" class="hidden">Guardar como Imagen</button>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script>
+        const form = document.getElementById('loveAlarmForm');
+        const result = document.getElementById('result');
+        const resultTitle = document.getElementById('resultTitle');
+        const resultMessage = document.getElementById('resultMessage');
+        const saveBtn = document.getElementById('saveBtn');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('message').value;
+
+            const noteColor = document.getElementById('noteColor').value;
+            const inkColor = document.getElementById('inkColor').value;
+
+
+            resultTitle.innerText = `Love Alarm para ${name} 💌`;
+            resultMessage.innerText = message;
+
+            result.style.backgroundColor = noteColor;
+            resultTitle.style.color = inkColor;
+            resultMessage.style.color = inkColor;
+
+
+            result.classList.remove('hidden');
+            saveBtn.classList.remove('hidden');
+        });
+
+        saveBtn.addEventListener('click', function() {
+    if (typeof html2canvas === "undefined") {
+        alert("html2canvas did not load. Check your script link.");
+        return;
+    }
+
+    html2canvas(result, {
+        scale: 2,
+        backgroundColor: null,
+        useCORS: true
+    }).then(function(canvas) {
+        canvas.toBlob(function(blob) {
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+
+            link.download = 'love-alarm.png';
+            link.href = url;
+            link.click();
+
+            URL.revokeObjectURL(url);
+        }, 'image/png');
+    }).catch(function(error) {
+        console.log("Image save error:", error);
+        alert("Something went wrong while saving the image. Check the console.");
+    });
+});
+    </script>
+</body>
+
+</html>
